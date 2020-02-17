@@ -1,1 +1,12 @@
-//
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import 'styles/common.scss';
+@import 'styles/navbar.scss';
+@import 'styles/login.scss';
+@import 'styles/register.scss';
+@import 'styles/hamburger.scss';
+@import 'styles/home.scss';

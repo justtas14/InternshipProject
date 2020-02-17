@@ -1,0 +1,78 @@
+html {
+    height: 100%;
+}
+body {
+    height: auto;
+    font-family: "Comic Sans MS";
+}
+input {
+    font-family: Arial;
+}
+.materialIcons {
+    color: #284257;
+    opacity: 0.9;
+}
+
+.customCard {
+    margin-bottom: 1em;
+    border-radius: 10px;
+    border-color: #ffffff;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.20);
+}
+
+.mainContainer {
+    margin-top: 2.5em;
+    transition: margin .3s ease;
+}
+
+.toggleContainer {
+    margin-top: 6em;
+}
+
+.authCloseContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    position: absolute;
+    cursor: pointer;
+    border-radius: 50%;
+    right: 0;
+    opacity: 0.6;
+    transition: opacity, background-color 0.5s ease;
+    z-index: 10;
+    &:hover {
+        background: #f8fafc;
+        opacity: 1;
+    }
+}
+
+.authClose {
+    font-size: 2.5em;
+}
+
+.resetEmailSubmit {
+    width: 225px;
+}
+
+.invalid-feedback {
+    font-family: Arial;
+    display: block;
+}
+
+
+@media only screen and (max-width: 600px) {
+    body {
+        font-size: 90%;
+    }
+
+}
+
+@media only screen and (max-width: 550px) {
+    .toggleContainer {
+        margin-top: 14em;
+    }
+}
+

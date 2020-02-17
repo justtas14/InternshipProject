@@ -1,0 +1,77 @@
+#loginCard {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 5em auto 0 auto;
+    z-index: 10;
+    font-size: 1em;
+    width: 300px;
+}
+.background__overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-color: #121416;
+    opacity: 0;
+    top: 0;
+}
+.background__overlay__show {
+    display: block;
+    animation: showBackground 0.4s ease;
+    animation-fill-mode: forwards
+}
+
+@keyframes showBackground {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.6;
+    }
+}
+
+
+
+.walkIn {
+    animation: walk-in 0.5s ease;
+}
+.walkOut {
+    animation: walk-out 0.5s ease;
+}
+@keyframes walk-in {
+     0% {
+         opacity: 0;
+         transform: translate(0px, -50px);
+     }
+     100% {
+         opacity: 1;
+         transform: translate(0px, 0px);
+     }
+ }
+@keyframes walk-out {
+    0% {
+        opacity: 1;
+        transform: translate(0px, 0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(0px, -50px);
+    }
+}
+
+
+//@media only screen and (max-width: 550px) {
+//    #loginCard {
+//        margin-top: 10em !important;
+//    }
+//}
+
+@media only screen and (max-width: 350px) {
+    #loginCard {
+        margin-top: -0.4em;
+        max-height: 370px;
+    }
+}

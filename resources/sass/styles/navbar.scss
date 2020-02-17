@@ -1,0 +1,246 @@
+.toggleButtonContainer {
+    display: flex;
+    width: 120px;
+    height: 60px;
+    line-height: 60px;
+    background: #fbfcfc;
+    border: unset;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.19), 0 1px 1px rgba(0,0,0,0.23);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    &:hover {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.25), 0 2px 2px rgba(0,0,0,0.22);
+    }
+    align-items: center;
+}
+
+.navContainer {
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 50;
+    font-size: 1.25em;
+    transition: margin .2s, padding .2s ease;
+}
+
+.navItemsContainer {
+    justify-content: flex-start;
+    display: flex;
+    width: 90%;
+    height: 100%;
+}
+
+.navDetailsBox {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 150px;
+    width: 175px;
+    height: auto;
+    background-color: #fbfcfc;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.19), 0 1px 1px rgba(0,0,0,0.23), 2px 3px 4px rgba(0,0,0,0.3);
+}
+
+.rotateInDetailsBox {
+    display: block;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-animation-name: flipInY;
+    animation-name: flipInY;
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.navDetailsBoxItem {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 -1px rgba(0,0,0,0.19);
+    color: inherit;
+    &:hover {
+        color: inherit;
+        text-decoration: none;
+        background-color: #ececf6;
+    }
+}
+
+.arrowIconExpand {
+    transform: rotateZ(180deg);
+}
+
+.mobileContainer {
+    height: auto !important;
+}
+
+.navContainerExpand {
+    margin: 0 !important;
+    padding: 0;
+}
+
+.fullWidth {
+    width: 100%;
+    transition: all ease-in-out 0.4s;
+    border-radius: 0 !important;
+}
+
+#toggleButton {
+    position: absolute !important;
+    right: 50px;
+    transition: all 0.1s ease;
+}
+
+.mobileBtn {
+    right: 0 !important;
+    top: 0;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    margin: 0 1em;
+    color: inherit;
+    position: relative;
+    &:hover {
+        text-decoration: none;
+        .navIcons, .navAuth {
+            color: #1b4b72;
+        }
+    }
+    i {
+        transition: all 0.6s ease;
+    }
+}
+
+.navIcons {
+    transition: color 0.4s ease;
+    font-size: 2em;
+}
+
+.navAuth {
+    transition: color 0.4s ease;
+    margin-right: 10px;
+}
+.navName {
+    margin-left: 3em;
+    cursor: pointer;
+}
+
+
+.showNavItem {
+    animation: fade-in 0.8s ease;
+    animation-fill-mode: forwards
+}
+
+.navAuthContainer {
+    justify-self: flex-end;
+    cursor: pointer;
+}
+
+.hideNavItem {
+    display: none;
+}
+
+.navAuthStart {
+    margin-left: 55px;
+}
+
+.navStart {
+    margin-left: 25px;
+}
+
+
+.userProfilePictureContainer {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    margin-right: 0.75em;
+    object-fit: contain;
+}
+
+.profilePicture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+@-webkit-keyframes flipInY {
+    0% {
+        -webkit-transform: translate(-25px, -25px) perspective(400px) rotate3d(0, 1, 0, 90deg);
+        transform: translate(-25px, -25px) perspective(400px) rotate3d(0, 1, 0, 90deg);
+        -webkit-transition-timing-function: ease-in;
+        transition-timing-function: ease-in;
+        opacity: 0;
+    }
+    50% {
+        -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+        transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+        -webkit-transition-timing-function: ease-in;
+        transition-timing-function: ease-in;
+    }
+    100% {
+        -webkit-transform: translate(-25px, -25px) perspective(300px);
+        transform: translate(0px, 0px) perspective(300px);
+        opacity: 1;
+    }
+}
+@keyframes flipInY {
+    0% {
+        -webkit-transform: translate(-25px, -25px) perspective(400px) rotate3d(0, 1, 0, 90deg);
+        transform: translate(-25px, -25px) perspective(400px) rotate3d(0, 1, 0, 90deg);
+        -webkit-transition-timing-function: ease-in;
+        transition-timing-function: ease-in;
+        opacity: 0;
+    }
+    50% {
+        -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+        transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+        -webkit-transition-timing-function: ease-in;
+        transition-timing-function: ease-in;
+    }
+    100% {
+        -webkit-transform: translate(-25px, -25px) perspective(300px);
+        transform: translate(0px, 0px) perspective(300px);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    0%   {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+@media only screen and (max-width: 550px) {
+    .toggleButtonContainer {
+    }
+    .navItemsContainer {
+        display: block;
+        height: auto;
+        width: 50%;
+        margin: auto;
+    }
+    .navItem {
+        justify-content: center;
+        margin: 0;
+        width: 100%;
+    }
+    #toggleButton {
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .navDetailsBox {
+        left: 75px;
+    }
+}
+

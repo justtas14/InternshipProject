@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Auth::routes(['login' => false, 'confirm' => false]);
+
+Route::get('/', 'HomeController@index')->name('home');
