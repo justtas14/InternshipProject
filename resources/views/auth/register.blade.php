@@ -78,7 +78,7 @@
                             </div>
                             <div class="col-lg-7 text-center">
                                 <div class="circle m-lg-0 m-auto" onclick="selectFile()">
-                                    <img class="profile-pic @error('profile_picture') is-invalid-picture @enderror" src="{{ asset('storage/profilePictures/default.png') }}">
+                                    <img class="profile-pic @error('profile_picture') is-invalid-picture @enderror" src="{{ asset('storage/images/profile/default.png') }}">
                                     <div class="p-image">
                                         <i class="material-icons upload-button">add_a_photo</i>
                                         <input onchange="readUrl(this)" class="file-upload" type="file" name="profile_picture" accept="image/*"/>

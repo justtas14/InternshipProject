@@ -94,7 +94,7 @@ class RegisterController extends Controller
         if ($file) {
             $filename = 'profile_picture-' . time() . '.' . $file->getClientOriginalExtension();
 
-            $file->storeAs('profilePictures', $filename);
+            $file->storeAs('images/profile', $filename);
         }
         $user = $this->create($request->all(), $filename);
 

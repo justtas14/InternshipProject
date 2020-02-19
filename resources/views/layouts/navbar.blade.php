@@ -35,9 +35,9 @@
                 <div class="navItem navName showNavItem" onclick="toggleDetailsBox()">
                     <div class="userProfilePictureContainer">
                         @if(Auth::user()->profile_picture)
-                            <img class="profilePicture" src="{{ asset('storage/profilePictures/'.Auth::user()->profile_picture) }}" alt="picture">
+                            <img class="profilePicture" src="{{ asset('storage/images/profile/'.Auth::user()->profile_picture) }}" alt="picture">
                         @else
-                            <img class="profilePicture" src="{{ asset('storage/profilePictures/default.png') }}" alt="picture">
+                            <img class="profilePicture" src="{{ asset('storage/images/profile/default.png') }}" alt="picture">
                         @endif
                     </div>
                     <div class="navAuth">
