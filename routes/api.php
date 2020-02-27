@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('general-info/{page}', 'ProductsController@generalInfo');
+Route::get('general-info', 'ProductsController@generalInfo');
 
 Route::get('product-info/{dish}', 'ProductsController@productInfo');
 
-Route::get('products-filter', 'ProductsController@productsFilter');
+Route::get('products-filter/{page}', 'ProductsController@productsFilter');

@@ -1,0 +1,42 @@
+.filter {
+    flex-grow: 1;
+    text-align: center;
+    position: relative;
+    text-align: right;
+    margin-right: 1em;
+}
+.filterIcon {
+    cursor: pointer;
+    font-size: 3em;
+    transition: all 0.3s ease;
+    &:hover {
+        transform: scale(1.3);
+    }
+}
+.fade-enter-active {
+    transition: opacity .5s, transform .5s ease;
+}
+.fade-leave-active {
+    transition: opacity .5s, transform .5s ease;
+}
+.fade-enter {
+    transform: translateX(-12px);
+    opacity: 0;
+}
+.fade-enter-to {
+    transform: translateX(0px);
+    opacity: 1;
+}
+.fade-leave {
+    transform: translateX(0px);
+    opacity: 1;
+}
+.fade-leave-to {
+    transform: translateX(-12px);
+    opacity: 0;
+}
+@media only screen and (max-width: 550px) {
+    .filter {
+        margin-right: 0.25em;
+    }
+}

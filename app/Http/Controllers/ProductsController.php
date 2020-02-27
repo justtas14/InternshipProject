@@ -13,9 +13,54 @@ class ProductsController extends Controller
      * @param int $page
      * @return \Illuminate\Http\JsonResponse
      */
-    public function generalInfo($page = 1) {
+    public function generalInfo() {
+        $allCategories = DB::select('SELECT * FROM categories');
+
+        return response()->json(
+            [
+                'allCategories' => $allCategories,
+            ],
+            200
+        );
+    }
+
+
+    /**
+     * @param int $page
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function productsFilter($page = 1, Request $request) {
         $productsPerPage = Config::get('constants.globalValues.productsPerPage');
-        $dishesCount = DB::select('SELECT COUNT(id) as dishesCount FROM dishes');
+        $searchParams = $request->all();
+        $searchTitleFilter = $searchParams['searchTitleFilter'];
+        $categoriesFilterArr = null;
+        if (array_key_exists('categoriesFilter', $searchParams) &&
+            $searchParams['categoriesFilter'] !== null &&
+            sizeof($searchParams['categoriesFilter']) > 0) {
+            $categoriesFilterArr = [];
+            foreach ($searchParams['categoriesFilter'] as $key => $item) {
+                array_push($categoriesFilterArr, json_decode($item)->name);
+            }
+        }
+        $dishes = $this->getFilteredByTitleDishes($searchTitleFilter);
+        $dishesArray = [];
+        foreach ($dishes as $key => $dish) {
+            $dishPropertiesArray = get_object_vars($dish);
+            $dishPropertiesArray['categories'] = $this->getDishCategories($dish);
+            $dishPropertiesArray['variations'] = $this->getDishVariations($dish);
+            $dishCategoriesNameArray = [];
+            foreach ($dishPropertiesArray['categories'] as $item) {
+                array_push($dishCategoriesNameArray, $item->name);
+            }
+            if ($this->checkIfDishHasSelectedCategories($dishCategoriesNameArray, $categoriesFilterArr)
+                || $categoriesFilterArr === null) {
+                array_push($dishesArray, $dishPropertiesArray);
+            }
+        }
+
+        $dishesCount = count($dishesArray);
+
         $pagesCount = $this->getNumberOfPages($dishesCount, $productsPerPage);
         if (!is_numeric($page)) {
             return response()->json([
@@ -23,34 +68,25 @@ class ProductsController extends Controller
             ], 404);
         }
         $page = intval($page);
+        if ($pagesCount < 1) {
+            $pagesCount++;
+        }
         if ($page < 1 || $page > $pagesCount) {
             return response()->json([
                 'error' => 'Page '.$page.' doesnt exist'
             ], 404);
         }
-        $offset = ($page - 1)  * $productsPerPage;
-        $dishes = DB::select('SELECT * FROM dishes LIMIT :limit OFFSET :offset', [$productsPerPage, $offset]);
-        $dishesArray = [];
-        foreach ($dishes as $key => $dish) {
-            $dishPropertiesArray = get_object_vars($dish);
-            $dishPropertiesArray['categories'] = $this->getDishCategories($dish);
-            array_push($dishesArray, $dishPropertiesArray);
-        }
-        $allCategories = DB::select('SELECT * FROM categories');
+        $offset = (($page - 1)  * $productsPerPage);
+        $dishesToDisplay = array_slice($dishesArray, $offset, $productsPerPage);
 
         return response()->json(
             [
-                'dishes' => $dishesArray,
-                'allCategories' => $allCategories,
+                'dishes' => $dishesToDisplay,
                 'dishesCount' => $dishesCount,
                 'pagesCount' => $pagesCount
             ],
             206
         );
-    }
-
-
-    public function productsFilter(Request $request) {
 
     }
 
@@ -71,21 +107,41 @@ class ProductsController extends Controller
         );
     }
 
+    private function checkIfDishHasSelectedCategories($currentDishCategories, $selectedDishCategories) {
+        if ($selectedDishCategories) {
+            $intersectedArraySize = sizeof(array_intersect($currentDishCategories, $selectedDishCategories));
+            return $intersectedArraySize === sizeof($selectedDishCategories);
+        }
+        return true;
+    }
+    /**
+     * @param $titleSearchFilter
+     * @return array
+     */
+    private function getFilteredByTitleDishes($titleSearchFilter) {
+        $titleSearchFilter = $titleSearchFilter ? $titleSearchFilter : '';
+        return DB::select(
+            'SELECT * FROM dishes WHERE name LIKE :titleFilter',
+            ['titleFilter' => '%'.$titleSearchFilter.'%']
+        );
+        //DB::select('SELECT * from dishes LEFT JOIN (SELECT name, dish_id FROM categories LEFT JOIN category_dish ON category_dish.category_id = categories.id) as categoryList ON dishes.id = categoryList.dish_id')
+    }
+
     private function getDishCategories($dish) {
         return DB::select(
-            'SELECT name FROM categories LEFT JOIN category_dish ON category_dish.category_id = categories.id
+            'SELECT name, iconName FROM categories LEFT JOIN category_dish ON category_dish.category_id = categories.id
                 WHERE category_dish.dish_id = :id',
             ['id' => $dish->id]);
     }
 
     private function getDishVariations($dish) {
         return DB::select(
-            'SELECT name FROM variations LEFT JOIN dish_variation ON dish_variation.variation_id = variations.id
+            'SELECT name, increased_amount FROM variations LEFT JOIN dish_variation ON dish_variation.variation_id = variations.id
                 WHERE dish_variation.dish_id = :id',
             ['id' => $dish->id]);
     }
 
     private function getNumberOfPages($dishesCount, $numberPerPages) {
-        return floor(get_object_vars($dishesCount[0])['dishesCount'] / $numberPerPages);
+        return ceil($dishesCount / intval($numberPerPages));
     }
 }

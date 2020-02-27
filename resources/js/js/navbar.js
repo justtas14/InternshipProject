@@ -12,7 +12,9 @@ export default class {
     expandNavBar() {
         this.navBarExpand = true;
         this.toggleButtonContainer.classList.add("fullWidth");
-        this.mainContainers[0].classList.add('toggleContainer');
+        if (this.mainContainers.length > 0) {
+            this.mainContainers[0].classList.add('toggleContainer');
+        }
         for (let i = 0; i < this.navItems.length; i++) {
             setTimeout(() => {
                 this.navItems[i].classList.remove('hideNavItem');
@@ -28,7 +30,9 @@ export default class {
     }
     narrowNavBar() {
         this.navBarExpand = false;
-        this.mainContainers[0].classList.remove('toggleContainer');
+        if (this.mainContainers.length > 0) {
+            this.mainContainers[0].classList.remove('toggleContainer');
+        }
         this.backgroundOverlay.classList.remove('background__overlay__show');
         this.loginCard.style.display = "none";
         this.toggleButtonContainer.classList.remove("fullWidth");
@@ -67,12 +71,12 @@ export default class {
     }
     navbarToggleAnimation() {
         this.addMobileClasses();
-        window.addEventListener('resize', (event) => {
+        window.addEventListener('resize', () => {
             this.addMobileClasses();
         });
 
         let canToggle = true;
-        this.toggleButton.addEventListener('click',(event) => {
+        this.toggleButton.addEventListener('click', () => {
             if (this.navBarExpand === false) {
                 this.expandNavBar();
             } else {
@@ -111,6 +115,25 @@ export default class {
             arrowIcon.classList.add('arrowIconExpand');
             toggleDetailsBox.classList.add('rotateInDetailsBox');
         }
+    }
+
+    scrollVertically() {
+        const video = document.querySelector('video');
+        const navContainer = this.toggleButtonContainer;
+        if (video) {
+            window.addEventListener('scroll', () => {
+                if ((Math.abs(video.getBoundingClientRect().y) + navContainer.clientHeight) > video.clientHeight - 20) {
+                    if (!navContainer.classList.contains('visibleBackground')) {
+                        navContainer.classList.add('visibleBackground');
+                    }
+                } else {
+                    navContainer.classList.remove('visibleBackground');
+                }
+            })
+        } else {
+            navContainer.classList.add('visibleBackground');
+        }
+
     }
 }
 

@@ -72,7 +72,7 @@
                         </div>
                         <div class="form-group row mb-0 mt-4 align-items-center">
                             <div class="col-lg-5 text-lg-right">
-                                <div class="mt-lg-0 mt-3 text-center">
+                                <div class="mt-lg-0 mt-3 mb-2 text-center">
                                     Upload profile picture:
                                 </div>
                             </div>

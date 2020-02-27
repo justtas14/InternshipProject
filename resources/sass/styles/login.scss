@@ -1,9 +1,12 @@
 #loginCard {
     display: none;
     position: fixed;
+    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-    margin: 5em auto 0 auto;
+    margin: auto;
+    height: 420px;
     z-index: 10;
     font-size: 1em;
     width: 300px;
@@ -69,9 +72,9 @@
 //    }
 //}
 
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 550px) {
     #loginCard {
-        margin-top: -0.4em;
+        margin-top: 13em;
         max-height: 370px;
     }
 }

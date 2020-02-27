@@ -1,0 +1,91 @@
+.categoriesBox {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    background-color: #fbfcfc;
+    box-shadow: 0 0 8px rgba(0,0,0,0.30), 0 0 14px rgba(0,0,0,0.22);
+    top: 10px;
+    right: 80px;
+    z-index: 15;
+    .filterContainer {
+        padding: 0;
+        margin: 0;
+        button {
+            border-radius: 0;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
+
+.categoriesBoxItem {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 -1px rgba(0,0,0,0.19);
+    transition: all 0.3s ease;
+    color: inherit;
+    cursor: pointer;    
+    .categoryName {
+        flex: 2;
+        text-align: left;
+        margin-left: -30px;
+        transition: all 0.3s ease;
+    }
+    i {
+        font-size: 2em;
+        transition: all 0.3s ease;
+    }
+    &:hover {
+        i {
+            transform: scale(1.3);;
+        }
+        .categoryName  {
+            font-size: 1.2em;
+        }
+        color: inherit;
+        text-decoration: none;
+    }
+}
+.hoveredIcon {
+    color: #1b4b72;
+    transform: scale(1.3);;
+}
+.hoveredCategory {
+    color: #1b4b72;
+    font-size: 1.2em;
+}
+
+.triangle-with-shadow {
+    z-index: 10;
+    position: relative;
+  }
+  .triangle-with-shadow:after {
+    background-color: #fbfcfc;
+    content: "";
+    position: absolute;
+    width: 20px;    
+    height: 20px;
+    transform: rotate(45deg); /* Prefixes... */
+    top: 4px;
+    right: -8.6px;
+    box-shadow: 4.7px -5.41px 8px -2px rgba(0, 0, 0, 0.4)
+  }
+
+.checkboxContainer {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 0.5em;
+}
+.categoryIconContainer {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    text-align: left;
+    margin-left: -10px;
+    i {
+        font-size: 1.2rem;
+    }
+}

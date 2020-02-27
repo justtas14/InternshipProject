@@ -3,8 +3,9 @@
     width: 120px;
     height: 60px;
     line-height: 60px;
-    background: #fbfcfc;
     border: unset;
+    background: linear-gradient(90deg, rgba(163,191,255,1) 0%, rgba(143,180,255,1) 0%, rgba(233,240,255,1) 67%, rgba(167,204,255,1) 100%);
+    background: rgba(255,255,255,0.5);
     border-radius: 8px !important;
     box-shadow: 0 3px 6px rgba(0,0,0,0.19), 0 1px 1px rgba(0,0,0,0.23);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
@@ -12,6 +13,10 @@
         box-shadow: 0 3px 6px rgba(0,0,0,0.25), 0 2px 2px rgba(0,0,0,0.22);
     }
     align-items: center;
+}
+
+.visibleBackground {
+    background: linear-gradient(90deg, rgba(246,248,251,1) 0%, rgba(234,238,247,1) 100%);
 }
 
 .navContainer {
@@ -43,6 +48,7 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.19), 0 1px 1px rgba(0,0,0,0.23), 2px 3px 4px rgba(0,0,0,0.3);
 }
 
+
 .rotateInDetailsBox {
     display: block;
     -webkit-backface-visibility: visible !important;
@@ -51,6 +57,7 @@
     animation-name: flipInY;
     -webkit-animation-duration: 0.5s;
     animation-duration: 0.5s;
+    filter: opacity(0.9);
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
 }
@@ -119,6 +126,7 @@
 .navIcons {
     transition: color 0.4s ease;
     font-size: 2em;
+    color: #1d2124;
 }
 
 .navAuth {

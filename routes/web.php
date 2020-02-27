@@ -14,3 +14,6 @@
 Auth::routes(['login' => false, 'confirm' => false]);
 
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('product-info/{dish}', 'HomeController@productInfo');
+

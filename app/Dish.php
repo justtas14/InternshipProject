@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Dish extends Model
 {
     protected $attributes = [
-        'is_out_of_stock' => false,
     ];
 
     public function categories()

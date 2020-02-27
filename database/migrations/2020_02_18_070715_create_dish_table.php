@@ -18,7 +18,6 @@ class CreateDishTable extends Migration
             $table->string('name', 100);
             $table->decimal('price', 5, 2);
             $table->boolean('is_bigger')->default(false);
-            $table->boolean('is_out_of_stock')->default(false);
             $table->text('description');
             $table->string('profile_picture');
             $table->timestamps();
