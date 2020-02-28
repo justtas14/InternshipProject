@@ -12253,11 +12253,13 @@ img {
 }
 
 .productInfoContainer .dishName {
+  height: auto;
   cursor: default;
   font-size: 2em;
 }
 
 .productInfoContainer .dishDesc {
+  height: auto;
   padding: 0 1em;
 }
 
