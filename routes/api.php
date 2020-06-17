@@ -19,3 +19,14 @@ Route::get('general-info', 'ProductsController@generalInfo');
 Route::get('product-info/{dish}', 'ProductsController@productInfo');
 
 Route::get('products-filter/{page}', 'ProductsController@productsFilter');
+
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::post('add-product', 'ProductsController@addProduct');
+});
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::post('delete-product', 'ProductsController@deleteProduct');
+});
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::post('edit-product', 'ProductsController@editProduct');
+});
+

@@ -11622,7 +11622,7 @@ img {
   background-color: #f8f9fa;
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 990px) {
   .productInfoBody .infoCategories {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -11647,7 +11647,8 @@ img {
   .productInfoBody .dropdown {
     margin-top: 2em;
     margin-right: 0 !important;
-    justify-content: center !important;
+    justify-content: flex-end !important;
+    flex: 1;
   }
 }
 
@@ -11772,6 +11773,13 @@ img {
   justify-content: flex-end;
   align-items: center;
   margin: 0.5em 0 0 0.5em;
+}
+
+.addProductContainer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 5px;
 }
 
 @media only screen and (max-width: 550px) {
@@ -12267,7 +12275,11 @@ img {
   font-size: 1.5em;
 }
 
-@media only screen and (max-width: 750px) {
+.productButtonsContainer {
+  display: flex;
+}
+
+@media only screen and (max-width: 990px) {
   .productInfoContainer {
     grid-template-columns: 1fr;
   }
@@ -13275,6 +13287,115 @@ img {
     /* stylelint-disable */
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+  }
+}
+
+.adminTitle {
+  color: #b91d19;
+}
+
+.addIcon {
+  font-size: 2.2em;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.addIcon:hover {
+  transform: scale(1.2);
+}
+
+.modalCloseButton {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+
+.modalCloseButton .addModalTitle {
+  font-size: 1.5em;
+}
+
+.vm--modal {
+  top: 30px !important;
+  height: auto !important;
+  overflow: auto !important;
+  margin-bottom: 30px;
+}
+
+.vm--modal .closeButton {
+  padding-top: 7px;
+  padding-right: 7px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-size: 2em;
+}
+
+#addProductForm,
+#editProductForm {
+  margin: 2em;
+}
+
+#addProductForm .buttonFormContainer,
+#editProductForm .buttonFormContainer {
+  text-align: center;
+  margin-top: 2.5em;
+}
+
+#addProductForm textarea,
+#editProductForm textarea {
+  resize: none;
+}
+
+#addProductForm .categoriesName,
+#editProductForm .categoriesName {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding-left: -1.25rem;
+}
+
+#addProductForm .categoryNameLabel,
+#editProductForm .categoryNameLabel {
+  margin-top: -0.5em;
+  margin-left: 0.75em;
+}
+
+#addProductForm .variationsName,
+#addProductForm .productProfileName,
+#editProductForm .variationsName,
+#editProductForm .productProfileName {
+  margin-top: 1.75em;
+  margin-bottom: 0.75em;
+}
+
+#addProductForm .productProfileName,
+#editProductForm .productProfileName {
+  margin-bottom: 1.5em;
+}
+
+.vm--container {
+  overflow-y: scroll !important;
+}
+
+.editProductContainer {
+  margin: 0 15px;
+}
+
+@media only screen and (max-width: 990px) {
+  .editProductContainer,
+  #deleteProductContainer {
+    margin-top: 2em;
+    flex: 1;
+  }
+
+  #deleteProductContainer {
+    text-align: left;
+  }
+
+  .editProductContainer {
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

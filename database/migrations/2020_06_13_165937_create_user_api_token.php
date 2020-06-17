@@ -13,9 +13,11 @@ class CreateUserApiToken extends Migration
      */
     public function up()
     {
-        Schema::create('user_api_token', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('api_token', 80)->after('password')
+                ->unique()
+                ->nullable()
+                ->default(null);
         });
     }
 
@@ -26,6 +28,8 @@ class CreateUserApiToken extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_api_token');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('api_token');
+        });
     }
 }

@@ -1,0 +1,87 @@
+.adminTitle {
+    color: #b91d19;
+}
+.addProduct {
+
+}
+.addIcon {
+    font-size: 2.2em;
+    cursor: pointer;
+    transition: 0.3s ease;
+    &:hover{
+        transform: scale(1.2);
+    }
+}
+.modalCloseButton {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    .addModalTitle {
+        font-size: 1.5em;
+    }
+}
+.vm--modal {
+    top: 30px !important;
+    height: auto !important;
+    overflow: auto !important;
+    margin-bottom: 30px;
+    .closeButton {
+        padding-top: 7px;
+        padding-right: 7px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        font-size: 2em;
+    }
+}
+#addProductForm, #editProductForm{
+    margin: 2em;
+    .buttonFormContainer {
+        text-align: center;
+        margin-top: 2.5em;
+    }
+    textarea {
+        resize: none;
+    }
+    .categoriesName {
+        display: inline-block;
+        margin-bottom: 0.75rem;
+        padding-left: -1.25rem;
+    }
+    .categoryNameLabel {
+        margin-top: -0.5em;
+        margin-left: 0.75em;
+    }
+    .variationsName, .productProfileName  {
+        margin-top: 1.75em;
+        margin-bottom: 0.75em;
+    }
+    .productProfileName {
+        margin-bottom: 1.5em;
+    }
+}
+.vm--container {
+    overflow-y: scroll !important;
+}
+
+.editProductContainer {
+    margin: 0 15px;
+}
+
+@media only screen and (max-width: 990px) {
+    .editProductContainer, #deleteProductContainer {
+        margin-top: 2em;
+        flex: 1;
+    }
+    #deleteProductContainer {
+        text-align: left;
+    }
+    .editProductContainer {
+        text-align: center;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+

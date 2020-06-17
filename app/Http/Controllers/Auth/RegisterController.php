@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Role;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -73,7 +75,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'profile_picture' => $filename
+            'profile_picture' => $filename,
+            'api_token' => Str::random(60),
         ]);
     }
 
@@ -97,6 +100,10 @@ class RegisterController extends Controller
             $file->storeAs('images/profile', $filename);
         }
         $user = $this->create($request->all(), $filename);
+
+        $roleUser = \App\Role::where('name', 'ROLE_USER')->get();
+
+        $user->roles()->attach($roleUser[0]->id);
 
         event(new Registered($user));
 

@@ -7,9 +7,7 @@
         </video>
         <button id="exploreBtn" onclick="goToProducts()" class="btn btn-outline-light">Explore our products</button>
     </div>
-    @verbatim
-        <div id="productsApp">
-            <main-products-card></main-products-card>
-        </div>
-    @endverbatim
+    <div id="productsApp">
+        <main-products-card :is-admin="{{ json_encode($isAdmin) }}" :token="{{ json_encode($token) }}"></main-products-card>
+    </div>
 @endsection

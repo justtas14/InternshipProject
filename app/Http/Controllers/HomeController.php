@@ -25,10 +25,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $isAdmin = false;
+        $token = null;
+        if (Auth::user()) {
+            $isAdmin = Auth::user()->isAdministrator();
+            $token = Auth::user()->api_token;
+        }
+        return view('home', ['isAdmin' => $isAdmin, 'token' => $token]);
     }
 
     public function productInfo(Dish $dish) {
-        return view('pages.product', ['productId' => $dish->id]);
+        $isAdmin = false;
+        $token = null;
+        if (Auth::user()) {
+            $isAdmin = Auth::user()->isAdministrator();
+            $token = Auth::user()->api_token;
+        }
+        return view('pages.product', ['productId' => $dish->id, 'isAdmin' => $isAdmin, 'token' => $token]);
     }
 }

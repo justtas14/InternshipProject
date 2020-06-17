@@ -4,10 +4,13 @@
             <div class="col-12">
                 <div class="card customCard homeCard">
                     <div class="card-body productsBody">
-                        <toolbar 
+                        <toolbar
                             v-bind:isLoading="isLoading"
                             v-bind:allCategories="allCategories"
                             v-bind:dishesCount="dishesCount"
+                            v-bind:isAdmin="isAdmin"
+                            v-bind:token="token"
+                            v-bind:variations="variations"
                             @filterTitle="filterTitle"
                             @filterCategories="filterCategories"
                         ></toolbar>
@@ -16,7 +19,7 @@
                             v-bind:dishes="dishes"
                         >
                         </products>
-                        <pagination 
+                        <pagination
                             v-bind:isLoadingPages="isLoadingPages"
                             v-bind:currentPage="currentPage"
                             v-bind:numberOfPages="pagesCount"
@@ -38,7 +41,8 @@ import pagination from './pagination.vue';
 import axios from 'axios';
 
 export default {
-    name: 'main-products-card', 
+    name: 'main-products-card',
+    props: ['isAdmin', 'token'],
     components: {
         toolbar,
         products,
@@ -52,9 +56,10 @@ export default {
             searchTitleFilter: '',
             dishes: null,
             allCategories: null,
+            variations: null,
             dishesCount: 0,
             pagesCount: 1,
-            currentPage: 1
+            currentPage: 1,
         }
     },
     computed: {
@@ -74,7 +79,7 @@ export default {
             this.getGeneralProductsInfo(n);
         },
         async getGeneralProductsInfo(page) {
-            this.isLoading = true; 
+            this.isLoading = true;
             const productsInfo = await axios.get(`/api/products-filter/${page}`, {
                 params: {
                     categoriesFilter: this.categoriesFilter,
@@ -88,7 +93,7 @@ export default {
         },
         filterCategories(e) {
             this.categoriesFilter = e;
-            this.filter();  
+            this.filter();
         },
         filterTitle(e) {
             this.searchTitleFilter = e;
@@ -108,14 +113,15 @@ export default {
     async created() {
         try {
             this.getGeneralProductsInfo(this.currentPage);
-            this.isLoading = true; 
+            this.isLoading = true;
             const generalInfo = await axios.get('api/general-info', {});
             this.allCategories = generalInfo.data.allCategories;
-            this.isLoading = false; 
+            this.variations = generalInfo.data.variations;
+            this.isLoading = false;
         } catch (error) {
             console.log(error);
         }
-        
+        console.log('isAdmin', this.isAdmin);
     }
 };
 </script>

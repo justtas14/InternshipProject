@@ -46,7 +46,7 @@
     }
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 990px) {
     .productInfoBody {
         .infoCategories {
             display: grid;
@@ -68,7 +68,8 @@
         .dropdown {
             margin-top: 2em;
             margin-right: 0 !important;
-            justify-content: center !important;
+            justify-content: flex-end !important;
+            flex: 1;
         }
     }
 }

@@ -41,7 +41,7 @@
                             <img class="profilePicture" src="{{ asset('storage/images/profile/default.png') }}" alt="picture">
                         @endif
                     </div>
-                    <div class="navAuth">
+                    <div class="navAuth @if (Auth::user()->isAdministrator()) adminTitle @endif">
                         {{ Auth::user()->name }}
                     </div>
                     <i class="material-icons materialIcons">

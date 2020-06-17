@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Dish;
+use App\Variation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -15,10 +19,12 @@ class ProductsController extends Controller
      */
     public function generalInfo() {
         $allCategories = DB::select('SELECT * FROM categories');
+        $variations = DB::select('SELECT * FROM variations');
 
         return response()->json(
             [
                 'allCategories' => $allCategories,
+                'variations' => $variations
             ],
             200
         );
@@ -107,6 +113,185 @@ class ProductsController extends Controller
         );
     }
 
+    public function addProduct(Request $request) {
+        $user = auth('api')->user();
+        if (!$user->isAdministrator()) {
+            return response()->json(
+                [
+                    'You are not admin!'
+                ],
+                403
+            );
+        }
+        $data = $request->all();
+        $title = $data['title'];
+        $price = $data['price'];
+        if (!is_numeric($price) || $price > 999) {
+            return response()->json(
+                [
+                    'error' => 'Price must be number or its too large!',
+                ],
+                200
+            );
+        }
+        $description = $data['description'];
+        $image = $data['image'];
+        $categoriesChecked = json_decode($data['categoriesChecked'], true);
+        $variationsChecked = json_decode($data['variationsChecked'], true);
+
+
+        $filename = 'profile_picture-' . time() . '.' . $image->getClientOriginalExtension();
+        $image->storeAs('images/dishes', $filename);
+
+        $dish = new Dish();
+        $dish->name = $title;
+        $dish->price = $price;
+        $dish->description = $description;
+        $dish->profile_picture = $filename;
+        $dish->save();
+
+        $selectedCategories = [];
+        $selectedVariations = [];
+
+        foreach ($categoriesChecked as $key => $value) {
+            if ($value['val']) {
+                $category = Category::find($key+1);
+                array_push($selectedCategories, $category);
+            }
+        }
+        foreach ($variationsChecked as $key => $value) {
+            if ($value['val']) {
+                $variation = Variation::find($key+1);
+                array_push($selectedVariations, $variation);
+            }
+        }
+        foreach ($selectedCategories as $key => $value) {
+            $dish->categories()->attach(
+                $value->id
+            );
+        }
+        foreach ($selectedVariations as $key => $value) {
+            $dish->variations()->attach(
+                $value->id
+            );
+        }
+        return response()->json(
+            [
+            ],
+            200
+        );
+    }
+
+    public function deleteProduct(Request $request) {
+        $user = auth('api')->user();
+        if (!$user->isAdministrator()) {
+            return response()->json(
+                [
+                    'You are not admin!'
+                ],
+                403
+            );
+        }
+        $data = $request->all();
+        $productId = $data['id'];
+
+        $dish = Dish::find($productId);
+
+        $oldProfilePicture = $dish->profile_picture;
+        if ($oldProfilePicture !== 'dish.png') {
+            Storage::delete('images/dishes/'.$oldProfilePicture);
+        }
+
+        $dish->delete();
+
+        return response()->json(
+            [],
+            200
+        );
+    }
+
+    public function editProduct(Request $request) {
+        $user = auth('api')->user();
+
+        if (!$user->isAdministrator()) {
+            return response()->json(
+                [
+                    'You are not admin!'
+                ],
+                403
+            );
+        }
+        $data = $request->all();
+
+        $id = $data['id'];
+        $title = $data['title'];
+        $price = $data['price'];
+        if (!is_numeric($price) || $price > 999) {
+            return response()->json(
+                [
+                    'error' => 'Price must be number or its too large!',
+                ],
+                200
+            );
+        }
+        $description = $data['description'];
+        $image = $data['image'];
+        $categoriesChecked = json_decode($data['categoriesChecked'], true);
+        $variationsChecked = json_decode($data['variationsChecked'], true);
+
+        $filename = 'profile_picture-' . time() . '.' . $image->getClientOriginalExtension();
+        $image->storeAs('images/dishes', $filename);
+
+
+        $dish = Dish::find($id);
+
+        $oldProfilePicture = $dish->profile_picture;
+        if ($oldProfilePicture !== 'dish.png') {
+            Storage::delete('images/dishes/'.$oldProfilePicture);
+        }
+
+        $dish->name = $title;
+        $dish->price = $price;
+        $dish->description = $description;
+        $dish->profile_picture = $filename;
+        $dish->save();
+
+        $selectedCategories = [];
+        $selectedVariations = [];
+
+        foreach ($categoriesChecked as $key => $value) {
+            if ($value['val']) {
+                $category = Category::find($key+1);
+                array_push($selectedCategories, $category);
+            }
+        }
+        foreach ($variationsChecked as $key => $value) {
+            if ($value['val']) {
+                $variation = Variation::find($key+1);
+                array_push($selectedVariations, $variation);
+            }
+        }
+
+
+        $newIds = [];
+        foreach ($selectedCategories as $key => $value) {
+            array_push($newIds, $value->id);
+        }
+        $dish->categories()->sync($newIds);
+
+        $newIds = [];
+        foreach ($selectedVariations as $key => $value) {
+            array_push($newIds, $value->id);
+        }
+        $dish->variations()->sync($newIds);
+
+        return response()->json(
+            [
+            ],
+            200
+        );
+    }
+
     private function checkIfDishHasSelectedCategories($currentDishCategories, $selectedDishCategories) {
         if ($selectedDishCategories) {
             $intersectedArraySize = sizeof(array_intersect($currentDishCategories, $selectedDishCategories));
@@ -124,7 +309,6 @@ class ProductsController extends Controller
             'SELECT * FROM dishes WHERE name LIKE :titleFilter',
             ['titleFilter' => '%'.$titleSearchFilter.'%']
         );
-        //DB::select('SELECT * from dishes LEFT JOIN (SELECT name, dish_id FROM categories LEFT JOIN category_dish ON category_dish.category_id = categories.id) as categoryList ON dishes.id = categoryList.dish_id')
     }
 
     private function getDishCategories($dish) {

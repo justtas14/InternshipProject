@@ -1,12 +1,12 @@
 <template>
-    <div class="addProduct">
-        <i class="material-icons addIcon" @click="showModal()">add</i>
-        <modal name="addProductModal">
+    <div class="editProductContainer">
+        <button @click="showModal" type="button" class="btn btn-primary text-white">Edit</button>
+        <modal name="editProductModal">
             <div class="modalCloseButton">
-                <div class="addModalTitle">Add product</div>
+                <div class="addModalTitle">Edit product</div>
             </div>
             <i class="material-icons closeButton" @click="hide()">close</i>
-            <form id="addProductForm">
+            <form id="editProductForm">
                 <div class="form-group">
                     <label for="title">Product title</label>
                     <input :disabled="isLoading" v-model="title" type="text" class="form-control" id="title" placeholder="Enter title">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="variationsName">Variations</div>
                 <div class="form-check">
-                    <div v-for="(variation, index) in variations" :key='index' >
+                    <div v-for="(variation, index) in allVariations" :key='index' >
                         <input :disabled="isLoading" class="form-check-input" type="checkbox" :id="variation.name"  v-model="variationsChecked[index].val">
                         <label class="form-check-label" style="margin-left: 0.5em" :for="variation.name">
                             {{ variation.name }}
@@ -64,7 +64,7 @@
                     {{ success }}
                 </div>
                 <div class="form-group buttonFormContainer">
-                    <button :disabled="isLoading" type="button" class="btn btn-primary" @click="add()">Add product</button>
+                    <button :disabled="isLoading" type="button" class="btn btn-primary" @click="edit()">Edit product</button>
                 </div>
             </form>
         </modal>
@@ -79,17 +79,17 @@ import axios from "axios";
 Vue.use(vmodal);
 
 export default {
-    name: 'add-product',
+    name: 'edit-product',
     components: {
         PictureInput
     },
-    props: ['allCategories', 'variations', 'token'],
+    props: ['allCategories', 'allVariations', 'token', 'dish'],
     data() {
         return {
             isLoading: false,
-            title: null,
-            price: null,
-            description: null,
+            title: this.dish.name,
+            price: this.dish.price,
+            description: this.dish.description,
             categoriesChecked: [],
             variationsChecked: [],
             image: null,
@@ -99,10 +99,10 @@ export default {
     },
     methods: {
         showModal() {
-            this.$modal.show('addProductModal');
+            this.$modal.show('editProductModal');
         },
         hide() {
-            this.$modal.hide('addProductModal');
+            this.$modal.hide('editProductModal');
         },
         onChange (image) {
             if (image) {
@@ -111,7 +111,7 @@ export default {
                 console.log('FileReader API not supported!')
             }
         },
-        async add() {
+        async edit() {
             this.error = '';
             this.success = '';
             if (!this.title  || !this.price || !this.description || !this.image) {
@@ -123,6 +123,7 @@ export default {
                 this.isLoading = true;
                 let formData = new FormData();
                 console.log(this.image);
+                formData.append("id", this.dish.id);
                 formData.append("image", this.image);
                 formData.append("title", this.title);
                 formData.append("price", this.price);
@@ -130,14 +131,17 @@ export default {
                 formData.append("categoriesChecked", JSON.stringify(this.categoriesChecked));
                 formData.append("variationsChecked", JSON.stringify(this.variationsChecked));
 
-                const result = await axios.post('api/add-product', formData, {
+                console.log(this.token);
+
+                const result = await axios.post('/api/edit-product', formData, {
                     headers: { Authorization: `Bearer ${this.token}` }
                 });
-                this.isLoading = false;
                 if (result.data.error) {
+                    this.isLoading = false;
                     this.error = result.data.error;
                 } else {
-                    this.success = 'Product ' + this.title + ' added!';
+                    this.success = 'Product edited!';
+                    location.reload();
                 }
             }
         },
@@ -149,27 +153,44 @@ export default {
                 }
             });
             return exists;
+        },
+        checkIfInArrayCategories(name) {
+            for (let i = 0; i < this.dish.categories.length; i++) {
+                if (this.dish.categories[i].name === name) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        checkIfInArrayVariations(name) {
+            for (let i = 0; i < this.dish.variations.length; i++) {
+                if (this.dish.variations[i].name === name) {
+                    return true;
+                }
+            }
+            return false;
         }
     },
     computed: {
 
     },
-    watch: {
-        allCategories: function (newValue, oldValue) {
-            for (let i = 0; i < newValue.length; i++) {
-                this.categoriesChecked.push({'val': false})
-            }
-        },
-        variations: function (newValue, oldValue) {
-            for (let i = 0; i < newValue.length; i++) {
-                this.variationsChecked.push({'val': false})
-            }
-        }
-    },
     mounted () {
     },
     created() {
-
+        for (let i = 0; i < this.allCategories.length; i++) {
+            if (this.checkIfInArrayCategories(this.allCategories[i].name)) {
+                this.categoriesChecked.push({'val': true})
+            } else {
+                this.categoriesChecked.push({'val': false})
+            }
+        }
+        for (let i = 0; i < this.allVariations.length; i++) {
+            if (this.checkIfInArrayVariations(this.allVariations[i].name)) {
+                this.variationsChecked.push({'val': true})
+            } else {
+                this.variationsChecked.push({'val': false})
+            }
+        }
     },
 };
 </script>

@@ -4,7 +4,7 @@
             <zoom-on-hover :img-normal='getDishImage()' :scale="2" :disabled="false"></zoom-on-hover>
         </div>
         <div class="dishName">
-            {{ name}}
+            {{ name }}
         </div>
         <div class="price">
             {{ price}}$
@@ -13,7 +13,7 @@
             {{ dish.description }}
         </div>
     </div>
-</template> 
+</template>
 
 <script>
 import Vue from 'vue';
@@ -21,8 +21,8 @@ import ZoomOnHover from "vue-zoom-on-hover";
 
 Vue.use(ZoomOnHover);
 
-export default {    
-    name: 'product', 
+export default {
+    zname: 'product',
     props: ['dish', 'selectedVariation'],
     components: {
     },

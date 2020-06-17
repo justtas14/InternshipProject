@@ -30,6 +30,13 @@
     margin: 0.5em 0 0 0.5em;
 }
 
+.addProductContainer {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 5px;
+}
+
 @media only screen and (max-width: 550px) {
     .toolbarContainer {
         grid-template-columns: 2fr 1fr 1fr;
